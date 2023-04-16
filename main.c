@@ -22,20 +22,22 @@ int doroga (int v,int**m)
     }
 }
 //---------путь из а в б----------
-int path (int a,int b,int**m)
+int path (int a,int b,int**m,int not[])
 {
+
     if (a==b) {printf("%i ", a); return 1;}
     else
     {
+        not[b]=1;
         for (int i=1; i < size; i++)
-            if (m[i][b]==1)
-                if (path(a,i,m))
+            if ((m[i][b]==1)&&(not[i]==0))
+                if (path(a,i,m,not))
                 {printf("%i ", b);
                     i=size;
                     return 1;
                 }
     }
-
+    not[b]=0;
     return 0;
 }
 //---------печатаем марицу смежности----------
@@ -60,6 +62,10 @@ void pr_in_cons(int n, int**m )
 
 void main(){
     FILE *f, *fo;
+    int not[size];
+    for (int i=0;i<size;i++){
+        not[i]=0;
+    }
     //---------создаем массив----------
     int **m=(int**)malloc(size*sizeof(int*));
     for (int i=0;i<size;i++){
@@ -72,7 +78,7 @@ void main(){
         }
     }
     fo=fopen("output.txt","w");
-    f=fopen("input.txt","r");
+    f=fopen("input2.txt","r");
     int n,b,c,a,d;
     //---------считываем из файла инфу----------
     while (!feof(f))
@@ -95,8 +101,8 @@ void main(){
     }
 
     pr_in_cons(n,m);
-    c=1; d=5;
-    if (!path(c,d,m)) printf("NO WAY");
+    c=4; d=6;
+    if (!path(c,d,m,not)) printf("NO WAY");
 
     fclose(f);
     fclose(fo);
