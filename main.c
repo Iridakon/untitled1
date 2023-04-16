@@ -8,6 +8,7 @@ int isEnd (int v,int**m)
         if (m[i][v]==1) return 0;
     return 1;
 }
+//---------количество дорог----------
 int doroga (int v,int**m)
 {
     if (isEnd(v,m)) return 1;
@@ -20,20 +21,38 @@ int doroga (int v,int**m)
         return s;
     }
 }
+//---------путь из а в б----------
+int path (int a,int b,int**m)
+{
+    if (a==b) {printf("%i ", a); return 1;}
+    else
+    {
+        for (int i=1; i < size; i++)
+            if (m[i][b]==1)
+                if (path(a,i,m))
+                {printf("%i ", b);
+                    i=size;
+                    return 1;
+                }
+    }
+
+    return 0;
+}
+//---------печатаем марицу смежности----------
 void pr(int n, int**m, FILE *fo )
 {
-    for (int i=0;i<n;i++)//вывод результата
+    for (int i=1;i<=n;i++)//вывод результата
     {
-        for (int j = 0; j < n; j++)
+        for (int j = 1; j <= n; j++)
             fprintf(fo,"%i ", m[i][j]);
         fprintf(fo,"\n");
     }
 }
 void pr_in_cons(int n, int**m )
 {
-    for (int i=0;i<n;i++)//вывод результата
+    for (int i=1;i<=n;i++)//вывод результата
     {
-        for (int j = 0; j < n; j++)
+        for (int j = 1; j <= n; j++)
             printf("%i ", m[i][j]);
         printf("\n");
     }
@@ -54,22 +73,30 @@ void main(){
     }
     fo=fopen("output.txt","w");
     f=fopen("input.txt","r");
-    int n,b,c,i,j;
+    int n,b,c,a,d;
+    //---------считываем из файла инфу----------
     while (!feof(f))
     {
 
         fscanf(f,"%i",&n);
-        fscanf(f,"%i%i",&c,&b);
-        while (c!=-1)//заполнение массива
+        fscanf(f,"%i%i",&a,&b);
+        while (a!=-1)//заполнение массива
         {
-            m[c-1][b-1]=1;
-            fscanf(f,"%i%i",&c,&b);
+            m[a][b]=1;
+            fscanf(f,"%i%i",&a,&b);
+        }
+        fscanf(f,"%i%i",&a,&b);
+        while (a!=-1)//удаление граней
+        {
+            m[a][b]=0;
+            fscanf(f,"%i%i",&a,&b);
         }
 
     }
-    printf("%i ", doroga(4,m));
 
-
+    pr_in_cons(n,m);
+    c=1; d=5;
+    if (!path(c,d,m)) printf("NO WAY");
 
     fclose(f);
     fclose(fo);
