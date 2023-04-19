@@ -77,19 +77,18 @@ void main(){
             m[i][j]=0;
         }
     }
-    fo=fopen("output.txt","w");
-    f=fopen("input2.txt","r");
+    //fo=fopen("output.txt","w");
+    f=fopen("D:\\exe\\untitled1\\cmake-build-debug\\input.txt","r");
     int n,b,c,a,d;
     //---------считываем из файла инфу----------
     while (!feof(f))
     {
-
         fscanf(f,"%i",&n);
-        fscanf(f,"%i%i",&a,&b);
+        fscanf(f,"%i %i",&a,&b);
         while (a!=-1)//заполнение массива
         {
             m[a][b]=1;
-            fscanf(f,"%i%i",&a,&b);
+            fscanf(f,"%i %i",&a,&b);
         }
         fscanf(f,"%i%i",&a,&b);
         while (a!=-1)//удаление граней
@@ -97,13 +96,12 @@ void main(){
             m[a][b]=0;
             fscanf(f,"%i%i",&a,&b);
         }
-
+        fscanf(f,"%i%i",&c,&d);
     }
 
-    pr_in_cons(n,m);
-    c=4; d=6;
+    //pr_in_cons(n,m);
+    //c=1; d=5;
     if (!path(c,d,m,not)) printf("NO WAY");
-
     fclose(f);
-    fclose(fo);
+    //fclose(fo);
 }
